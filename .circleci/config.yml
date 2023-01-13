@@ -1,0 +1,83 @@
+version: 2.1
+
+orbs:
+  ruby: circleci/ruby@2.0.0
+  unity: game-ci/unity@1.4.0
+
+jobs:
+  build-android:
+    executor:
+      name: unity/ubuntu
+      editor_version: 2021.3.9f1
+      resource_class: xlarge
+      target_platform: android
+    steps:
+      - checkout
+      - unity/prepare-env
+      - unity/build:
+          build-target: Android
+          compress: false
+          store-artifacts: false
+      - persist_to_workspace:
+          root: .
+          paths:
+            - Builds/Android
+
+  beta-android:
+    docker:
+      - image: cimg/ruby:3.1.3
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - ruby/install-deps:
+          key: android
+      - run: bundle exec fastlane android beta
+
+  export-ios:
+    executor:
+      name: unity/ubuntu
+      editor_version: 2021.3.9f1
+      resource_class: xlarge
+      target_platform: ios
+    steps:
+      - checkout
+      - unity/prepare-env
+      - unity/build:
+          build-target: iOS
+          compress: false
+          store-artifacts: false
+      - persist_to_workspace:
+          root: .
+          paths:
+            - Builds/iOS/iOS
+
+  build-and-beta-ios:
+    macos:
+      xcode: 13.4.1
+    resource_class: large
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - ruby/install-deps:
+          key: ios
+      - run: bundle exec fastlane ios beta
+
+workflows:
+  build-unity-project:
+    jobs:
+      - build-android:
+          context: unity
+      - beta-android:
+          requires:
+            - build-android
+          context:
+            - mobile
+      - export-ios:
+          context: unity
+      - build-and-beta-ios:
+          requires:
+            - export-ios
+          context:
+            - mobile
