@@ -145,49 +145,56 @@ jobs:
 #          name: build-StandaloneWindows64
 #          path: build/StandaloneWindows64
 #
-  buildAndroid:
-    needs: testRunner
-    name: Build for Android 📱
+ buildForAllPlatformsUbuntu:
+    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      matrix:
+        cloudRunnerCluster:
+          # - local-docker
+          - local
+        projectPath:
+          - test-project
+        unityVersion:
+          - 2021.3.13f1
+        targetPlatform:
+          - iOS # Build an iOS player.
+          - Android # Build an Android .apk.
+          #          - StandaloneWindows # Build a Windows standalone.
+          #          - WSAPlayer # Build an Windows Store Apps player.
+          #          - PS4 # Build a PS4 Standalone.
+          #          - XboxOne # Build a Xbox One Standalone.
+          #          - tvOS # Build to Apple's tvOS platform.
+          #          - Switch # Build a Nintendo Switch player
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Create LFS file list
-        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
-
-      - name: Restore LFS cache
-        uses: actions/cache@v2
-        id: lfs-cache
+      ###########################
+      #         Checkout        #
+      ###########################
+      - uses: actions/checkout@v2
         with:
-          path: .git/lfs
-          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+          lfs: true
 
-      - name: Git LFS Pull
-        run: |
-          git lfs pull
-          git add .
-          git reset --hard
-
-      - name: Restore Library cache
-        uses: actions/cache@v2
+      ###########################
+      #          Cache          #
+      ###########################
+      - uses: actions/cache@v2
         with:
-          path: Library
-          key: Library-build-Android
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}-ubuntu-${{ matrix.targetPlatform }}
           restore-keys: |
-            Library-build-
+            Library-${{ matrix.projectPath }}-ubuntu-
             Library-
-
-      - uses: webbertakken/unity-builder@v2
+      ###########################
+      #          Build          #
+      ###########################
+      - uses: ./
         with:
-          targetPlatform: Android
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: build-Android
-          path: build/Android
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
+          cloudRunnerCluster: ${{ matrix.cloudRunnerCluster }}
 #
 #
 #  deployPages:
