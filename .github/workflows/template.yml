@@ -55,8 +55,7 @@ jobs:
         with:
           name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
-          
-    buildAndroid:
+          buildAndroid:
     needs: testRunner
     name: Build for Android 📱
     runs-on: ubuntu-latest
