@@ -8,7 +8,7 @@ on:
 
 env:
   UNITY_LICENSE:
-<?xml version="1.0" encoding="UTF-8"?><root>
+"<?xml version="1.0" encoding="UTF-8"?><root>
     <License id="Terms">
         <MachineBindings>
             <Binding Key="1" Value="576562626572264761624c65526f7578"/>
@@ -45,7 +45,7 @@ env:
 6xH5p+8I634Uw4kFVrK9skiCkueuxwzHunPC+oK5EhOKRvS2FFN+Pwfh6ydOPqPwNwFyvtFQbeyA&#13;
 IRNLq5M/GluDaL4C1YcrzNIbWUtepe7lLmdPjSSd6FLaEUpmW97CIdG+wZsdRbpYRozduhA3PXZP&#13;
 BLEE2Rd8OC5bCR23wPtXeZIDbQUevxyk+2WAHiewVU/OXZREoXV8Et4VmPCqNGdcJP7lTO2rHq3K&#13;
-ee5RXDv3ZzfwVcXrMiR8+uJoDuwdRn6O4mB+Pg==</SignatureValue></Signature></root>
+ee5RXDv3ZzfwVcXrMiR8+uJoDuwdRn6O4mB+Pg==</SignatureValue></Signature></root>"
 
 jobs:
   buildForAllPlatformsUbuntu:
