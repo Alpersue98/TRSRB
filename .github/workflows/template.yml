@@ -43,10 +43,9 @@ jobs:
           # - local-docker
           - local
         projectPath:
-          - test-project
+          - TRSRB
         unityVersion:
-          - 2019.2.11f1
-          - 2019.3.15f1
+          - 2021.3.13f1
         targetPlatform:
           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
