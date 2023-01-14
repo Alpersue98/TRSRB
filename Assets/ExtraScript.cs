@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unitngine;
+using UnityEngine;
 
 public class ExtraScript : MonoBehaviour
 {
