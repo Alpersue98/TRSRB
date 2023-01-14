@@ -1,11 +1,7 @@
 
 name: GameCI Template 🎮
 
-# Run on every commit tag which begins with "v" (e.g., "v0.1.4")
-on:
-  push:
-    tags:
-      - "v*"
+on: push
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -60,12 +56,3 @@ jobs:
           name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
           
-# Automatically create a GitHub Release, with release details specified (the relevant commits)
-  release:
-    name: "Release"
-    runs-on: "ubuntu-latest"
-    steps:
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
