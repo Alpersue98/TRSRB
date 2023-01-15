@@ -1,7 +1,11 @@
 
 name: Unity CI/CD 🎮
 
-on: push
+# Run on every commit tag which begins with "v" (e.g., "v0.1.4")
+on:
+  push:
+    tags:
+      - "v*"
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -180,6 +184,17 @@ jobs:
         with:
           name: build-Android
           path: build/Android
+          
+  release:
+    name: Release
+    runs-on: "ubuntu-latest"
+    needs: buildWebGL
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          
   deployPages:
     needs: buildWebGL
     name: Deploy to Github Pages 🚀
