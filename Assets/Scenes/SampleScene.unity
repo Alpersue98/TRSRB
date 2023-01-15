@@ -823,7 +823,7 @@ GameObject:
   - component: {fileID: 951335577}
   - component: {fileID: 951335576}
   m_Layer: 5
-  m_Name: HomescreenTEXT
+  m_Name: HomescreenTEX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
