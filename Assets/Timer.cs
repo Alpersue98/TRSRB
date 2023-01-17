@@ -75,4 +75,10 @@ public class Timer : MonoBehaviour
         timerActive = false;
 
     }
+
+    public void StopTimer()
+    {
+        timerActive = false;
+
+    }
 }
